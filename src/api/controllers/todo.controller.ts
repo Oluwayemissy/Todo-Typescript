@@ -87,8 +87,17 @@ export default class TodoController {
 
     static async updateTodo (req: Request, res: Response) {
         try {
-            const { params: {todo_id} } = req;
-            const todo = await updateTodo(todo_id);
+            const { todo_id } = req.params;
+            const todo = await getTodo(todo_id)
+            if (!todo) {
+                return errorResponse({
+                    res,
+                    message: "todo not found",
+                    statusCode: NOT_FOUND
+                })
+            }
+            // const body = req;
+            await updateTodo(todo_id);
             return successResponse({
                 res, 
                 data: todo,
