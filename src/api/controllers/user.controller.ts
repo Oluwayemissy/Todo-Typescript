@@ -10,7 +10,6 @@ import { SALT_ROUNDS, AUTH_TOKEN_LIFETIME, JWT_AUTH_SECRET } from '../../constan
 
 const { CREATED, NOT_FOUND, OK, BAD_REQUEST, UNAUTHORIZED } = StatusCodes;
 
-
 export default class UserController { 
     static async createUser(req: Request, res: Response) {
         try {
@@ -75,6 +74,31 @@ export default class UserController {
             res,
             message: `We encountered a problem while processing your request. Please try again.`,
           });
+        }
+    }
+
+    static async getUsers( req: Request, res: Response ) {
+        try {
+            const users = await UserService.getUsers()
+            if(!users) {
+                return errorResponse({
+                    res,
+                    message: "users not found",
+                    statusCode: NOT_FOUND
+                })
+            }
+            return successResponse({
+                res,
+                data: users,
+                message: "users fetched",
+                statusCode: OK
+            })
+        } catch (error) {
+            logger('error', error)
+            return errorResponse({
+                res, 
+                message: "we encountered a problem while fetching users"
+            })
         }
     }
 }

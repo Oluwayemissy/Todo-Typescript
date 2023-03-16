@@ -35,13 +35,15 @@ class TodoService {
         }
     }
 
-    async updateTodo(todoId: string): Promise<void> {
+    async updateTodo(todoId: string, task: ITodo, ): Promise<any> {
         try {
             const todo = await TodoModel.findById(todoId);
             if (!todo) {
                 throw new Error ('no record found')
             }
-            await TodoModel.updateMany({_id: todoId}, todo)
+            return TodoModel.findOneAndUpdate({_id: todoId}, task, {
+                new: true
+            });
         } catch (error) {
             throw error
         }

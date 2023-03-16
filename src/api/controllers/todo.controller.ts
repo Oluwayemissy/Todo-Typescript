@@ -52,7 +52,7 @@ export default class TodoController {
           logger("error", error)
           errorResponse({
             res,
-            message: "we encounted a problem while fetching a todo"
+            message: "we encountered a problem while fetching a todo"
           })
             
         }
@@ -79,7 +79,7 @@ export default class TodoController {
            logger("error", error)
            return errorResponse({
             res, 
-            message: "we encoutered a problem while fetching classes"
+            message: "we encountered a problem while fetching todos"
            })
             
         }
@@ -88,6 +88,7 @@ export default class TodoController {
     static async updateTodo (req: Request, res: Response) {
         try {
             const { todo_id } = req.params;
+            const body = req.body
             const todo = await getTodo(todo_id)
             if (!todo) {
                 return errorResponse({
@@ -95,12 +96,12 @@ export default class TodoController {
                     message: "todo not found",
                     statusCode: NOT_FOUND
                 })
-            }
-            // const body = req;
-            await updateTodo(todo_id);
+            };
+            const editTodo = await updateTodo(todo_id, body);
+            
             return successResponse({
                 res, 
-                data: todo,
+                data: editTodo,
                 message: "todo updated",
                 statusCode: OK
             })

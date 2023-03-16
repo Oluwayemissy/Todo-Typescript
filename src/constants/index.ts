@@ -6,6 +6,7 @@ config()
 export const { 
     PORT,
     NODE_ENV,
+    DB_URL,
     ENVIRONMENT,
     JWT_AUTH_SECRET,
     PRODUCTION_URL
@@ -28,7 +29,8 @@ export const ORIGIN =
 export const ROUTES = { 
  //users
  CREATEUSER: "/users/register",
- LOGIN: '/users/login',
+ LOGIN: "/users/login",
+ GETUSERS: "/users/users",
 
  //todos
  CREATETODO: "/todos/add_todo",
